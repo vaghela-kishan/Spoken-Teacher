@@ -1,0 +1,27 @@
+"""Shared schema building blocks."""
+
+from __future__ import annotations
+
+from typing import Generic, TypeVar
+
+from pydantic import BaseModel, ConfigDict
+
+T = TypeVar("T")
+
+
+class ORMModel(BaseModel):
+    """Base for read-schemas mapped from SQLAlchemy rows."""
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class Message(BaseModel):
+    message: str
+
+
+class Page(BaseModel, Generic[T]):
+    items: list[T]
+    total: int
+    page: int
+    size: int
+    pages: int

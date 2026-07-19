@@ -1,0 +1,29 @@
+[project]
+name = "ai-english-tutor-backend"
+version = "1.0.0"
+description = "FastAPI backend for the AI English Speaking Tutor"
+requires-python = ">=3.11"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["alembic/versions"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "C4", "SIM"]
+ignore = ["B008"]  # FastAPI Depends() in defaults is idiomatic
+
+[tool.ruff.lint.per-file-ignores]
+"app/scripts/seed.py" = ["E501"]      # seed data rows read better on one line
+"app/services/email.py" = ["E501"]    # inline HTML email template
+"alembic/versions/*" = ["E501"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.mypy]
+python_version = "3.11"
+plugins = ["pydantic.mypy"]
+ignore_missing_imports = true

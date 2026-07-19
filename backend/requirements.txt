@@ -1,0 +1,57 @@
+# ============================================================
+#  Backend dependencies — AI English Speaking Tutor
+#
+#  Install everything:   pip install -r requirements.txt
+#  Then run:             uvicorn app.main:app --reload
+#
+#  Pinned to the exact versions verified working end-to-end.
+#  Tested on Python 3.11 – 3.13.
+# ============================================================
+
+# ---- Web framework ----
+fastapi==0.139.0
+uvicorn[standard]==0.51.0
+gunicorn==23.0.0                  # production server (used in Docker prod)
+python-multipart==0.0.32          # form + audio-file uploads (/voice/transcribe)
+websockets==16.1
+
+# ---- Database ----
+sqlalchemy[asyncio]==2.0.51
+aiosqlite==0.22.1                 # async SQLite driver (dev default)
+asyncpg==0.30.0                   # async PostgreSQL driver (production)
+alembic==1.14.0                   # database migrations
+psycopg2-binary==2.9.10           # sync PG driver for alembic migrations
+
+# ---- Cache / pubsub ----
+redis==8.0.1
+
+# ---- Auth & security ----
+passlib[bcrypt]==1.7.4
+bcrypt==4.0.1                     # 4.1+ drops __about__ which passlib 1.7.4 reads
+pyjwt==2.13.0
+email-validator==2.3.0
+
+# ---- Settings / validation ----
+pydantic==2.13.4
+pydantic-settings==2.14.2
+
+# ---- AI (LLM) ----
+groq==1.5.0                       # fast primary tutor — llama-3.3-70b-versatile
+google-generativeai==0.8.3        # fallback provider — Gemini
+
+# ---- Speech (local STT / TTS) ----
+faster-whisper==1.1.0             # speech-to-text (Whisper)
+piper-tts==1.4.2                  # neural text-to-speech
+
+# ---- Email ----
+aiosmtplib==5.1.2
+jinja2==3.1.6
+
+# ---- Utils ----
+httpx==0.28.1
+tenacity==9.1.4                   # retry wrapper for AI calls
+loguru==0.7.3
+
+# ---- Testing ----
+pytest==9.1.1
+pytest-asyncio==1.4.0

@@ -1,0 +1,24 @@
+# ============================================================
+#  Netlify config — deploys the React (Vite) frontend only.
+#  The backend runs on Railway; set VITE_API_URL / VITE_WS_URL
+#  (below or in the Netlify UI) to point at the Railway domain.
+# ============================================================
+
+[build]
+  # The frontend lives in a subfolder of this monorepo.
+  base = "frontend"
+  command = "npm run build"
+  # publish is relative to `base`, so this is frontend/dist
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+  # Make sure devDependencies (vite, typescript) are installed for the build.
+  NPM_FLAGS = "--include=dev"
+
+# SPA fallback: every unknown path serves index.html so client-side
+# routing (react-router) works on direct visits / refresh.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

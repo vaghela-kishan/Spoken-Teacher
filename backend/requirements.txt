@@ -40,8 +40,13 @@ groq==1.5.0                       # fast primary tutor — llama-3.3-70b-versati
 google-generativeai==0.8.3        # fallback provider — Gemini
 
 # ---- Speech (local STT / TTS) ----
-faster-whisper==1.1.0             # speech-to-text (Whisper)
-piper-tts==1.4.2                  # neural text-to-speech
+# NOTE: The heavy neural speech engines (faster-whisper, piper-tts) are OPTIONAL.
+# They pull large native wheels (ctranslate2 / onnxruntime / piper-phonemize) that
+# are slow and often fail to build on small PaaS builders (Railway/Render free tier)
+# -> "Failed to build an image". The app is designed to run without them: STT and
+# TTS transparently fall back to the browser's Web Speech API (see stt.py / tts.py,
+# default TTS_ENGINE=browser). For a local install with server-side speech, run:
+#     pip install -r requirements-optional.txt
 
 # ---- Email ----
 aiosmtplib==5.1.2

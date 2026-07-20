@@ -1,0 +1,16 @@
+# ============================================================
+#  OPTIONAL: local (server-side) speech engines
+#
+#  Install ONLY if you want the backend to run STT/TTS itself
+#  instead of using the browser's Web Speech API:
+#      pip install -r requirements.txt -r requirements-optional.txt
+#
+#  These packages need native build tools + ffmpeg and are large,
+#  so they are intentionally kept out of the default production image.
+#  To use them in Docker you must also add back to the Dockerfile:
+#      apt-get install -y ffmpeg build-essential
+#  and set  WHISPER_MODEL=base  /  TTS_ENGINE=piper  in the environment.
+# ============================================================
+
+faster-whisper==1.1.0             # speech-to-text (Whisper)
+piper-tts==1.4.2                  # neural text-to-speech

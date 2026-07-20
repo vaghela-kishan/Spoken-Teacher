@@ -77,6 +77,23 @@ class Settings(BaseSettings):
             return [o.strip() for o in v.split(",") if o.strip()]
         return v
 
+    @field_validator("DATABASE_URL", mode="before")
+    @classmethod
+    def _normalize_db_url(cls, v: str) -> str:
+        """Coerce a managed-platform Postgres URL to the async driver.
+
+        Railway/Heroku/Render inject the URL as ``postgres://…`` or
+        ``postgresql://…`` (which SQLAlchemy would open with the *sync* psycopg2
+        driver). The app runs on an async engine, so it needs ``+asyncpg``.
+        Alembic converts it back to a sync URL itself (see alembic/env.py).
+        """
+        if isinstance(v, str):
+            if v.startswith("postgres://"):
+                v = "postgresql://" + v[len("postgres://") :]
+            if v.startswith("postgresql://"):
+                v = "postgresql+asyncpg://" + v[len("postgresql://") :]
+        return v
+
     @property
     def is_production(self) -> bool:
         return self.ENVIRONMENT.lower() == "production"

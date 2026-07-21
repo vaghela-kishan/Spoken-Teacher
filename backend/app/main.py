@@ -76,6 +76,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 # ---- Error handling ----
 register_exception_handlers(app)
 

@@ -68,9 +68,16 @@ app = FastAPI(
 )
 
 # ---- CORS ----
+# Allow the configured origins plus the deployed frontend URL. The regex also
+# permits the sibling Render web service (…-web.onrender.com) so the frontend
+# and backend, deployed as separate services, can talk without extra config.
+_cors_origins = [
+    o for o in dict.fromkeys([*settings.BACKEND_CORS_ORIGINS, settings.FRONTEND_URL]) if o
+]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.BACKEND_CORS_ORIGINS,
+    allow_origins=_cors_origins,
+    allow_origin_regex=r"https://spoken-teacher-[a-z0-9-]*\.onrender\.com",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
